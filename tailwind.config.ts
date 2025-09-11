@@ -3,13 +3,11 @@ import type { Config } from 'tailwindcss'
 import animate from 'tailwindcss-animate'
 
 const config: Config = {
-  // ✅ 문자열로 지정 (또는 ["class", ".dark"] 처럼 2요소 튜플)
   darkMode: 'class',
   content: [
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
     './app/**/*.{js,ts,jsx,tx,mdx}',
-    // 만약 src/ 구조라면 아래 한 줄도 권장
     './src/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
