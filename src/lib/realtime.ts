@@ -1,5 +1,13 @@
+import { type RealtimeChannelStatus } from '@supabase/supabase-js'
 import { supabase } from './supabaseClient'
+
 export type PresenceMeta = { name: string; isLeader?: boolean; avatar?: string }
+
+type ChatBroadcast = {
+  event: string
+  type: 'broadcast'
+  payload: { user: string; text: string }
+}
 
 export function joinRoomChannel(roomId: string, me: PresenceMeta) {
   const channel = supabase.channel(`room:${roomId}`, {
@@ -10,11 +18,11 @@ export function joinRoomChannel(roomId: string, me: PresenceMeta) {
     console.log('members', channel.presenceState())
   })
 
-  channel.on('broadcast', { event: 'chat' }, (p) => {
-    console.log('chat', p.payload)
+  channel.on('broadcast', { event: 'chat' }, (event: ChatBroadcast) => {
+    console.log('chat', event.payload)
   })
 
-  channel.subscribe(async (status) => {
+  channel.subscribe(async (status: RealtimeChannelStatus) => {
     if (status === 'SUBSCRIBED') {
       await channel.track(me)
     }
